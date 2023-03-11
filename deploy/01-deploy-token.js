@@ -32,4 +32,4 @@ module.exports = async ({ getNamedAccounts, deployments}) => {
 }
 
 // this is for mentioning whether we want to deploy mocks npx hardhat deploy --tags mocks
-module.exports.tags = ["all", "mocks"];
+module.exports.tags = ["all", "token"];

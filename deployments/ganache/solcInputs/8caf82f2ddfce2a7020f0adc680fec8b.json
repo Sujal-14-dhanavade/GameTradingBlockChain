@@ -1,0 +1,41 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/GameItem.sol": {
+      "content": "// SPDX-License-Identifier: SEE LICENSE IN LICENSE\r\npragma solidity ^0.8.7;\r\n\r\n\r\ncontract GameItem {\r\n    \r\n}"
+    },
+    "contracts/GameStore.sol": {
+      "content": "// SPDX-License-Identifier: SEE LICENSE IN LICENSE\r\npragma solidity ^0.8.7;\r\nimport \"./Wallet.sol\";\r\n\r\ncontract GameStore {\r\n    address[] public gameItems;\r\n    address[] public tradeItem;\r\n\r\n    address public immutable owner;\r\n    constructor() {\r\n        owner = msg.sender;\r\n    } \r\n\r\n    function createWallet() public returns(address){\r\n        address wallet = address(new Wallet());\r\n        return wallet;\r\n    }\r\n}"
+    },
+    "contracts/Wallet.sol": {
+      "content": "// SPDX-License-Identifier: SEE LICENSE IN LICENSE\r\npragma solidity ^0.8.7;\r\nimport \"./GameItem.sol\";\r\n\r\ncontract Wallet {\r\n    \r\n    uint256 private gameToken = 10 * 1e8;\r\n    uint256 private constant decimal = 1e8;\r\n    address private owner;\r\n    address[] private ownedItems;    \r\n    \r\n    \r\n    constructor () {\r\n        owner = msg.sender;\r\n    }\r\n\r\n    function getOwner() public view returns(address) {\r\n        return owner;\r\n    } \r\n\r\n    function availableToken() public view returns(uint256) {\r\n        return gameToken;\r\n    }\r\n\r\n    function getItem(uint256 index) public view returns(address) {\r\n        return ownedItems[index];\r\n    } \r\n\r\n    function receiveToken(uint256 tokens) public {\r\n        gameToken += tokens;\r\n    }\r\n}"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": false,
+      "runs": 200
+    },
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata",
+          "devdoc",
+          "userdoc",
+          "storageLayout",
+          "evm.gasEstimates"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}
