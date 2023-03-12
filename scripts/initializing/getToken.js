@@ -9,7 +9,7 @@ async function main() {
     const wallet = await ethers.getContractAt("Wallet", response, actor);
     const token = await ethers.getContract("Token", actor);
     const responseSendToken = await token.sendToken(wallet.address, {
-        value: ethers.utils.parseEther("0.8"),
+        value: ethers.utils.parseEther("1.80"),
     });
     await responseSendToken.wait(1);
     const availableToken = await wallet.availableToken();

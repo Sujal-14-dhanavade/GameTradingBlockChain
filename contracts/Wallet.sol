@@ -2,16 +2,21 @@
 pragma solidity ^0.8.7;
 import "./GameItem.sol";
 
+
+error Wallet_NotOwner();
+
 contract Wallet {
     
+    // default token = 10 per wallet account
     uint256 private gameToken = 10 * 1e8;
-    uint256 private constant decimal = 1e8;
-    address private owner;
-    address[] private ownedItems;    
+    uint256 private constant decimal = 1e8; // decimal point for token
+    address private owner; // owner of wallet
+    address[] private ownedItems;    // items owned by this account
     
     
-    constructor () {
-        owner = msg.sender;
+    // setting owner of wallet
+    constructor (address _owner) {
+        owner = _owner;
     }
 
     function getOwner() public view returns(address) {
@@ -26,7 +31,14 @@ contract Wallet {
         return ownedItems[index];
     } 
 
-    function receiveToken(uint256 tokens) public {
+    // incrementing tokens received by token contract
+    function receiveToken(uint256 tokens) external {
         gameToken += tokens;
+    }
+
+    // buying item based on item address and decrementing its price
+    function buyItem(address item, uint256 sellingToken) external {
+        gameToken -= sellingToken;
+        ownedItems.push(item);
     }
 }

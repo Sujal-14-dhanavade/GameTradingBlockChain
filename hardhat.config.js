@@ -16,9 +16,9 @@ module.exports = {
     "ganache": {
       url: "http://127.0.0.1:7545",
       accounts: [
-        "7274073bf949cf5e050c97cfab92da5f16d6ab55ad16d314ec0a6c95179e1247",
-        "9c3ea337a1bdab37326e9278d9bfba310060be067ecb64dbf9154e47cfe88390",
-        "919986ad79152141e9c3793634bb611d18b5e72199752ba7dbe9582f770f5098",
+        "c63433915da7d7f39a2ff3994c826758284aba106d5a268f91c8c884a738c1db",
+        "dd11eeb2d4e04fb18e0b84ddb9a47924d5791bfedb28e328df08ad3aa7ac9876",
+        "38d99ce06668c7e32867799d25fef7c598c95154ac370538115fe1e31eb08b89",
 
       ]
     },
