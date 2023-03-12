@@ -41,4 +41,8 @@ contract Wallet {
         gameToken -= sellingToken;
         ownedItems.push(item);
     }
+
+    function addCreateItem(address item) external {
+        ownedItems.push(item);
+    }
 }

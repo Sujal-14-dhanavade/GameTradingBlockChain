@@ -65,6 +65,21 @@ contract GameStore {
         wallet.buyItem(address(item), listedStoreItemsToToken[gameItem]);
     }
 
+    // this creates custome items for user using their wallet address
+    function createCustomItems(string memory walletName, string memory _name, string memory _typeOf, uint256 _level)  public {
+        // checks wallet exist or not
+        require(Wallets[walletName] != address(0), "Wallet or game item does not exist!!");
+        Wallet wallet = Wallet(Wallets[walletName]);
+        // checks who is accessing wallet
+        require(wallet.getOwner() == msg.sender, "Wallet is not owned by you!!!");
+        // creating a custom item
+        GameItem createdItem = new GameItem(_name, _typeOf, _level, "custom");
+        // adding owner of newly created item
+        createdItem.addOwner(address(wallet));
+        // adding item to owner wallet
+        wallet.addCreateItem(address(createdItem));
+    }
+
     modifier onlyOwner {
         if(msg.sender != owner) {revert GameStore_NotOwner();}
         _;
