@@ -8,6 +8,11 @@ error GameStore_NotOwner();
 
 contract GameStore {
 
+    struct Trade {
+        address trader;
+        address item;
+        address itemNeeded;
+    }
     // this contains game original items
     address[] public storeOriginalItems;
 
@@ -24,8 +29,7 @@ contract GameStore {
     mapping (address => uint256) public listedUserMintedItemsToToken;
 
     // this contains listed custom made items mapped to particular tradable item
-    mapping (address => address) public listedUserTradeItemsToItems;
-
+    Trade[] public listedUserTradeItemsToItems;
     // owner of the gameStore
     address public immutable owner;
 
@@ -109,7 +113,47 @@ contract GameStore {
         wallet.buyItem(address(item), listedUserMintedItemsToToken[customItem]);
     }
 
-    // function buyCustomItems()
+
+    function listingTradeItems(string memory walletName, uint256 index, address tradableItem) public {
+        // checks wallet exist or not
+        require(Wallets[walletName] != address(0), "Wallet or game item does not exist!!");
+        Wallet wallet = Wallet(Wallets[walletName]);
+        // checks who is accessing wallet
+        require(wallet.getOwner() == msg.sender, "Wallet is not owned by you!!!");
+
+        // listing custom items
+        GameItem item = GameItem(wallet.getItem(index));
+
+        Trade memory info = Trade(address(wallet), address(item), tradableItem);
+        // listing item for trade with another item
+        listedUserTradeItemsToItems.push(info);
+    }
+
+    function tradeItem(string memory tradeAcceptorWalletName, uint256 index) public {
+        // checks wallet exist or not
+        require(Wallets[tradeAcceptorWalletName] != address(0), "Wallet or game item does not exist!!");
+        Wallet wallet = Wallet(Wallets[tradeAcceptorWalletName]);
+        // checks who is accessing wallet
+        require(wallet.getOwner() == msg.sender, "Wallet is not owned by you!!!");
+
+        // trade info of particular trading request
+        Trade memory info = listedUserTradeItemsToItems[index];
+
+        // walet of request owner
+        Wallet walletTrade = Wallet(info.trader);
+        // item listed for trading
+        GameItem item = GameItem(info.item);
+        // item required for trading
+        GameItem itemNeeded = GameItem(info.itemNeeded);
+        // if tradeacceptor don't have required item then revert
+        require(itemNeeded.isOwner(address(wallet)), "You don't have required item!!!!");
+        // swap owner for item 
+        item.tradeOwner(address(wallet), info.trader);
+        itemNeeded.tradeOwner(info.trader, address(wallet));
+        // swap items for wallet
+        wallet.swapItem(address(itemNeeded), address(item));
+        walletTrade.swapItem( address(item), address(itemNeeded));
+    }
     modifier onlyOwner {
         if(msg.sender != owner) {revert GameStore_NotOwner();}
         _;

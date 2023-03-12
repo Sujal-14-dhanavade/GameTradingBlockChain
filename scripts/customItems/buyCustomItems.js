@@ -16,7 +16,7 @@ async function main() {
     const response = await Store.getWallet("wallet2");
     console.log("Wallet Address:-" + response.toString());
     const wallet = await ethers.getContractAt("Wallet", response, actor2);
-    console.log((await wallet.getItem("0")).toString());
+    console.log((await wallet.getItem("1")).toString());
 }
 
 

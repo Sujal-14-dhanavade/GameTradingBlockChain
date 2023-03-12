@@ -50,4 +50,13 @@ contract GameItem {
         }
     }
 
+    function isOwner(address _owner) public view returns(bool) {
+        for(uint i = 0; i < owners.length; i++) {
+            if(owners[i] == _owner) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

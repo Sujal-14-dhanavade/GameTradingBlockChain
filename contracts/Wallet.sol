@@ -45,4 +45,12 @@ contract Wallet {
     function addCreateItem(address item) external {
         ownedItems.push(item);
     }
+
+    function swapItem(address itemSwapped, address newItem) external {
+        for(uint i = 0; i < ownedItems.length; i++) {
+            if(ownedItems[i] == itemSwapped) {
+                ownedItems[i] = newItem;
+            }
+        }
+    }
 }
