@@ -153,6 +153,12 @@ contract GameStore {
         // swap items for wallet
         wallet.swapItem(address(itemNeeded), address(item));
         walletTrade.swapItem( address(item), address(itemNeeded));
+        
+        // removing trade info
+        Trade memory temp = listedUserTradeItemsToItems[index];
+        listedUserTradeItemsToItems[index] = listedUserTradeItemsToItems[listedUserTradeItemsToItems.length - 1];
+        listedUserTradeItemsToItems[listedUserTradeItemsToItems.length - 1] = temp;
+        listedUserTradeItemsToItems.pop();
     }
     modifier onlyOwner {
         if(msg.sender != owner) {revert GameStore_NotOwner();}
