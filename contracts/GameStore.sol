@@ -160,6 +160,7 @@ contract GameStore {
         listedUserTradeItemsToItems[listedUserTradeItemsToItems.length - 1] = temp;
         listedUserTradeItemsToItems.pop();
     }
+    
     modifier onlyOwner {
         if(msg.sender != owner) {revert GameStore_NotOwner();}
         _;
