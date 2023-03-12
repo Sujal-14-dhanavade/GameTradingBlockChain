@@ -3,7 +3,7 @@
 const {getNamedAccounts, ethers} = require("hardhat");
 
 async function main() {
-    const {actor} = await getNamedAccounts();
+    const {actor, actor2} = await getNamedAccounts();
     const Store = await ethers.getContract("GameStore", actor);
     const response = await Store.getWallet("wallet1");
     const wallet = await ethers.getContractAt("Wallet", response, actor);

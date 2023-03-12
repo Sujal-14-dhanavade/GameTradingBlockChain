@@ -11,6 +11,9 @@ contract GameStore {
     // this contains game original items
     address[] public storeOriginalItems;
 
+    // this contains custom items
+    address[] public storeCustomItems;
+
     // this contains account details mapped to particular username
     mapping (string => address) public Wallets;
 
@@ -74,6 +77,8 @@ contract GameStore {
         require(wallet.getOwner() == msg.sender, "Wallet is not owned by you!!!");
         // creating a custom item
         GameItem createdItem = new GameItem(_name, _typeOf, _level, "custom");
+        // have a reference of custom item with gameStore
+        storeCustomItems.push(address(createdItem));
         // adding owner of newly created item
         createdItem.addOwner(address(wallet));
         // adding item to owner wallet
@@ -86,14 +91,22 @@ contract GameStore {
         Wallet wallet = Wallet(Wallets[walletName]);
         // checks who is accessing wallet
         require(wallet.getOwner() == msg.sender, "Wallet is not owned by you!!!");
+        //listing custom items
         GameItem item = GameItem(wallet.getItem(index));
-        require(listedUserMintedItemsToToken[address(item)] == 0, "Already listed item");
         require(keccak256(abi.encode(item.getVersion())) != keccak256(abi.encode("classic")), "Only Custom Item can be listed");
-        listedUserMintedItemsToToken[address(item)] = token;
+        listedUserMintedItemsToToken[address(item)] = token * 1e8;
     }
 
-    function buyingListedItems(string memory walletName, address customItem) public {
-        
+    function buyingListedItems(string memory walletName, address customItem) public{
+        // checks wallet exist or not
+        require(Wallets[walletName] != address(0), "Wallet or game item does not exist!!");
+        Wallet wallet = Wallet(Wallets[walletName]);
+        // checks who is accessing wallet and whether token is enough or not
+        require(wallet.getOwner() == msg.sender &&  wallet.availableToken() >= listedUserMintedItemsToToken[customItem], "Wallet is not owned by you or you don't have enough tokens!!!");
+        GameItem item = GameItem(customItem);
+        require(wallet.getOwner() != item.owners(0), "Item Creator cannot buy custom item!!!");
+        item.addOwner(address(wallet)); // adding wallet address as owner
+        wallet.buyItem(address(item), listedUserMintedItemsToToken[customItem]);
     }
 
     // function buyCustomItems()
@@ -101,5 +114,4 @@ contract GameStore {
         if(msg.sender != owner) {revert GameStore_NotOwner();}
         _;
     }
-
 }

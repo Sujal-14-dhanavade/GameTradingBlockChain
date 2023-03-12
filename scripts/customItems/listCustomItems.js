@@ -5,7 +5,7 @@ const {getNamedAccounts, ethers} = require("hardhat");
 async function main() {
     const {actor} = await getNamedAccounts();
     const Store = await ethers.getContract("GameStore", actor);
-    const response = await Store.listingCustomItems("wallet1", "1", "15");
+    const response = await Store.listingCustomItems("wallet1", "1", "16");
     await response.wait(1);
     console.log("---------------------------------------------------------")
     const response1 = await Store.getWallet("wallet1");
