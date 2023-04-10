@@ -61,7 +61,7 @@ contract GameStore {
     }
 
     // this is for buying store original item 
-    function buyItem(string memory name, address gameItem) public {
+    function buyOriginalItem(string memory name, address gameItem) public {
         // require both the wallet and item to exists
         require(Wallets[name] != address(0) && listedStoreItemsToToken[gameItem] != 0, "Wallet or game item does not exist!!");
         Wallet wallet = Wallet(Wallets[name]);
@@ -101,7 +101,7 @@ contract GameStore {
         listedUserMintedItemsToToken[address(item)] = token * 1e8;
     }
 
-    function buyingListedItems(string memory walletName, address customItem) public{
+    function buyCustomItems(string memory walletName, address customItem) public{
         // checks wallet exist or not
         require(Wallets[walletName] != address(0), "Wallet or game item does not exist!!");
         Wallet wallet = Wallet(Wallets[walletName]);
@@ -111,6 +111,10 @@ contract GameStore {
         require(wallet.getOwner() != item.owners(0), "Item Creator cannot buy custom item!!!");
         item.addOwner(address(wallet)); // adding wallet address as owner
         wallet.buyItem(address(item), listedUserMintedItemsToToken[customItem]);
+        
+        // owner Wallet
+        Wallet ownerWallet = Wallet(item.getOwner(0));
+        ownerWallet.receiveToken(listedUserMintedItemsToToken[customItem]);
     }
 
 

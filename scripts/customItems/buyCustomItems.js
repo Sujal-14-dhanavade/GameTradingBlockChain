@@ -6,7 +6,7 @@ async function main() {
     const {actor2} = await getNamedAccounts();
     const Store = await ethers.getContract("GameStore", actor2);
     const getCustomItem = await Store.storeCustomItems("0");
-    const buyResponse = await Store.buyingListedItems("wallet2", getCustomItem);
+    const buyResponse = await Store.buyCustomItems("wallet2", getCustomItem);
     await buyResponse.wait(1);
     console.log("----------------------------------------custom item bought--------------");
     console.log("Item Address:-" + getCustomItem.toString());

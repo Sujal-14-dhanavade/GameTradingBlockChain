@@ -6,7 +6,7 @@ async function main() {
     const {actor, actor2} = await getNamedAccounts();
     const Store = await ethers.getContract("GameStore", actor);
     const item1Address = await Store.storeOriginalItems("0");
-    const buy = await Store.buyItem("wallet1", item1Address);
+    const buy = await Store.buyOriginalItem("wallet1", item1Address);
     await buy.wait(1);
     console.log("------------------------------------------- item bought <from actor 1>---------------------------------------");
     console.log("Item Address:-" + item1Address.toString());
@@ -20,7 +20,7 @@ async function main() {
 
     const Store2 = await ethers.getContract("GameStore", actor2);
     const item1Address2 = await Store2.storeOriginalItems("1");
-    const buy2 = await Store2.buyItem("wallet2", item1Address2);
+    const buy2 = await Store2.buyOriginalItem("wallet2", item1Address2);
     await buy2.wait(1);
     console.log("------------------------------------------- item bought <from actor 2>---------------------------------------");
     console.log("Item Address:-" + item1Address2.toString());

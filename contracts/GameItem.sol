@@ -35,6 +35,10 @@ contract GameItem {
     function getVersion() public view returns(string memory){
         return version;
     }
+
+    function getOwner(uint256 index) public view returns(address){
+        return owners[index];
+    }
     // adding owner if item is sold
     function addOwner(address buyer) public {
         owners.push(buyer);
