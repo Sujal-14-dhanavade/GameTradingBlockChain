@@ -104,6 +104,7 @@ contract GameStore {
     function buyCustomItems(string memory walletName, address customItem) public{
         // checks wallet exist or not
         require(Wallets[walletName] != address(0), "Wallet or game item does not exist!!");
+        require(listedUserMintedItemsToToken[customItem] != 0, "Custom Item not listed yet!!");
         Wallet wallet = Wallet(Wallets[walletName]);
         // checks who is accessing wallet and whether token is enough or not
         require(wallet.getOwner() == msg.sender &&  wallet.availableToken() >= listedUserMintedItemsToToken[customItem], "Wallet is not owned by you or you don't have enough tokens!!!");
