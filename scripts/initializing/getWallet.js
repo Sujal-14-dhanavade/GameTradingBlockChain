@@ -28,6 +28,7 @@ async function main() {
     const availableTokens = await wallet.availableToken();
 
     console.log("\t\t\t* Token Remaining in Wallet1 is: " + parseFloat(availableTokens.toString()) / 1e8 + " Game Tokens");
+    console.log("\t\t\t* Items List :- " + (await wallet.getItems()).toString());
     console.log("----------------------------------------------------------");
     console.log("\t\tUser B address : - " + actor2 + " accessing GameStore contract");
 
@@ -47,6 +48,7 @@ async function main() {
     const availableTokens1 = await wallet1.availableToken();
 
     console.log("\t\t\t* Token Remaining in Wallet2 is: " + parseFloat(availableTokens1.toString()) / 1e8 + " Game Tokens");
+    console.log("\t\t\t* Items List :- " + (await wallet1.getItems()).toString());
     console.log("------------------------------------------------------------------------");
     console.log("------------------------------------------------------------------------");
 }
