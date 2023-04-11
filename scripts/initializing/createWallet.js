@@ -29,12 +29,12 @@ async function main() {
 
     const Store1 = await ethers.getContract("GameStore", actor2);
 
-    console.log("\t\t\t* User A creating wallet with name wallet2");
+    console.log("\t\t\t* User B creating wallet with name wallet2");
 
     const response1 = await Store1.createWallet("wallet2");
     await response1.wait(1);
 
-    console.log("\t\t\t* User A created wallet with name wallet2");
+    console.log("\t\t\t* User B created wallet with name wallet2");
 
     const res1 = await Store1.getWallet("wallet2");
 
