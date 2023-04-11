@@ -65,6 +65,8 @@ async function main() {
     const newToken1 = await wallet1.availableToken();
     
     console.log("\t\t\t* Tokens in Wallet1 after buying is: " + parseFloat(newToken1.toString()) / 1e8 + " Game Tokens");
+    console.log("------------------------------------------------------------------------");
+    console.log("------------------------------------------------------------------------");
 }
 
 

@@ -44,6 +44,11 @@ contract GameItem {
         owners.push(buyer);
     }
 
+    //getting owners array
+    function getOwners() public view returns(address[] memory) {
+        return owners;
+    }
+
     // trading item with another item
 
     function tradeOwner(address buyer, address seller) public {

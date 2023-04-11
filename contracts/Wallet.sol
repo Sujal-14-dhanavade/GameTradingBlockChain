@@ -29,6 +29,10 @@ contract Wallet {
 
     function getItem(uint256 index) public view returns(address) {
         return ownedItems[index];
+    }
+
+    function getItems() public view returns(address[] memory) {
+        return ownedItems;
     } 
 
     // incrementing tokens received by token contract
